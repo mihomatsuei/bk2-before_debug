@@ -3,24 +3,35 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @book = Book.new
     @books = @user.books
-    @book = Book.new
   end
-
-  def index
-    @users = User.all
-    @book = Book.new
 
   def edit
     @user = User.find(params[:id])
+    # if〜endを追加
+    if @user == current_user
+    else
+    redirect_to user_path(current_user.id) #users#show
+    end
   end
 
   def update
+       @user = User.find(params[:id])
     if @user.update(user_params)
-      redirect_to users_path(@user), notice: "You have updated user successfully."
+      # users_path(@user)user#indexをuser_path(@user.id)user#showへ変更→編集成功になる
+      redirect_to user_path(@user.id), notice: "You have updated user successfully."
     else
-      render "show"
+      # "show"を:edit に変更
+      render :edit
     end
+  end
+
+# endを追加
+  def index
+    @users = User.all
+    @user = current_user
+    @book = Book.new
   end
 
   private
@@ -31,7 +42,7 @@ class UsersController < ApplicationController
   def ensure_correct_user
     @user = User.find(params[:id])
     unless @user == current_user
-      redirect_to user_path(current_user)
+      redirect_to user_path(current_user.id)
     end
   end
 end

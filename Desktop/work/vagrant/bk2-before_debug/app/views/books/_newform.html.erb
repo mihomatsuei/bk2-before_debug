@@ -1,15 +1,26 @@
-<%= form_for(book) do |f| %>
+<!-- 本の新規投稿画面 -->
+
+<%= form_for(@book) do |f| %>
 	<div class="field row">
 		<%= f.label :title %>
-		<%= f.text_field :title, class: "col-xs-12 book_title" %>
+		<%= f.text_field :title, class: "col-xs-9 book_title" %>
 	</div>
 
 	<div class="field row">
 		<%= f.label :body %>
-		<%= f.text_area :body, class: "col-xs-12 book_body" %>
+		<%= f.text_area :body, class: "col-xs-9 book_body" %>
 	</div>
 
 	<div class="actions row">
-		<%= f.submit class: "btn btn-primary col-xs-12" %>
+		<%= f.submit class: "btn btn-primary col-xs-9" %>
 	</div>
 <% end %>
+
+<% if @book.errors.any? %>
+			error
+			    <ul>
+			      <% @book.errors.full_messages.each do |message| %>
+			        <li><%= message %></li>
+			      <% end %>
+			    </ul>
+			<% end %>
