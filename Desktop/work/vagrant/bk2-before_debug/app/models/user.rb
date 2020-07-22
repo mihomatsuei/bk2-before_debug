@@ -7,6 +7,8 @@ class User < ApplicationRecord
   # belongs_to :books→has_many :booksへ変更
   has_many :books, dependent: :destroy
   attachment :profile_image, destroy: false
+  has_many :post_comments, dependent: :destroy
+  has_many :favorites, dependent: :destroy
 
   #バリデーションは該当するモデルに設定する。エラーにする条件を設定できる。
   validates :name, length: {maximum: 20, minimum: 2}

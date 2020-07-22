@@ -5,6 +5,7 @@ class BooksController < ApplicationController
     @books = Book.all
     @book = Book.new
     @user = current_user
+    # @post_comments = PostComment.where(book_id: @book.id)は定義しなくてOK
   end
 
   def create
@@ -26,6 +27,10 @@ class BooksController < ApplicationController
     @book = Book.new
     # データを持ったbookのユーザー
     @user = @find_book.user
+    @post_comment = PostComment.new
+    # 与えられた条件にマッチするレコードをすべて返す
+    # ポストコメントモデルに入っている中でbook_idが一緒のものをとってきたい
+    @post_comments = PostComment.where(book_id: @find_book.id)
   end
 
   def edit
@@ -48,9 +53,9 @@ class BooksController < ApplicationController
 
 # delete→destroyへ
   def destroy
-    book = Book.find(params[:id])
-    book.destroy
-    redirect_to books_path
+    @book = Book.find(params[:id])
+    @book.destroy
+    redirect_to books_path, notice: "successfully delete book!"
   end
 
   private
