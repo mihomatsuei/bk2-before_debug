@@ -34,6 +34,19 @@ class UsersController < ApplicationController
     @book = Book.new
   end
 
+  def following
+     @user = User.find(params[:id])
+    # user infoで表示されている人がフォローした人全員
+     @users = @user.following_user
+  end
+
+  def followed
+     @user = User.find(params[:id])
+     # user infoで表示されている人のことをフォローした人全員
+     @users = @user.follower_user
+  end
+
+
   private
   def user_params
     params.require(:user).permit(:name, :introduction, :profile_image)

@@ -1,0 +1,35 @@
+<div class="container"> <!-- ここを追加 -->
+	<div class="row">     <!-- ここを追加 -->
+		<div class="col-xs-12">
+			<h2>Follower Users</h2>
+			<!-- User infoのfollowersボタンをクリックするとこのページへ -->
+			<!-- user infoで表示されている人のことをフォローした人全員を表示したい-->
+			<table class="table">
+				<thead>
+					<tr>
+						<th>image</th>
+						<th>name</th>
+						<th colspan="3"></th>
+					</tr>
+				</thead>
+
+				<tbody>
+                       <% @users.each do |user| %>
+					<tr>
+						<td><%= attachment_image_tag(user, :profile_image, :fill, 50, 50, fallback: "no-image-mini.jpg") %></td>
+						<td><%= user.name %></td>
+						<!-- 左辺が未定義または偽なら代入(左辺をまず評価して、結果が真なら何もせず、偽なら右辺へ代入する) -->
+						<!-- userまたはuserが偽なら今ログインしているuser -->
+						<% user ||= current_user %>
+						<td>フォロー数:<%= user.follower.count %></td>
+						<td>フォロワー数:<%= user.followed.count %></td>
+
+
+						<td><%= link_to "Show", user_path(user), class: "user_#{user.id}" %></td>
+						<% end %>
+					</tr>
+				</tbody>
+			</table>
+		</div><!-- ここを追加 -->
+	</div><!-- ここを追加 -->
+</div>

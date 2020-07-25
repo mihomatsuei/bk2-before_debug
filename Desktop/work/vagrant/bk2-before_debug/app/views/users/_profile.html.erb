@@ -1,4 +1,5 @@
 <!-- ユーザーのプロフィール作成 -->
+<!-- ここにfollowsとfollowers欄とフォローするボタンを作成 -->
 
 <table class="table">
 	<tr><%= attachment_image_tag(user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %></tr>
@@ -12,6 +13,17 @@
 		<th>introduction</th>
 		<th><%= @user.introduction %></th>
 	</tr>
+	<!-- フォロー機能追加 -->
+	<% @user ||= current_user %>
+	<tr>
+		<th>follows</th>
+		<th> <%= link_to @user.follower.count,following_path(@user), class: "user_#{@user.id}" %></th>
+	</tr>
+	<tr>
+		<th>followers</th>
+		<th> <%= link_to @user.followed.count,followed_path(@user), class: "user_#{@user.id}" %></th>
+	</tr>
+	<!-- フォロー機能追加 -->
 </table>
 
 <div class="row">

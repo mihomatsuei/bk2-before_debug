@@ -1,10 +1,22 @@
-
+<!--User#indexからshowを押すとここへ -->
 <!-- もし、ブラウザのurlと異なるbook detail idの場合、このページのままrender-->
 <div class="container"> <!-- ここを追加 -->
 	<div class="row">
 		<div class="col-xs-3">
 			<h2>User info</h2>
-			<%= render 'users/profile', user: @user %>
+			<%= render 'users/profile', user: @user %><br>
+
+			<!-- ここにフォローボタンを追加 -->
+			<!--  @user = User.find(params[:id]) -->
+			<% @user ||= current_user %>
+			<% if @user != current_user %>
+			<% if current_user.following?(@user) %>
+			<%= link_to "フォロー外す", unfollow_path(@user.id), method: :POST, class: "btn btn-primary" %>
+			<% else %>
+			<%= link_to "フォローする", follow_path(@user.id), method: :POST, class: "btn btn-success" %>
+			<% end %>
+			<% end %>
+			<!-- ここにフォローボタンを追加 -->
 
 			<h2>New book</h2>
 			<%= render 'books/newform', book: @book %>
@@ -42,4 +54,4 @@
 			<!--books一覧 -->
 		</div>
 	</div>
-</div><!-- ここを追加 -->
+</div><!-- ここを追加
